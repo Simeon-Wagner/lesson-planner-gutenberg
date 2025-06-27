@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ <script>
+    $("#menu-faq").addClass("w3-green");
+ </script>
+
+ <h1 style="display: none;">{% block title %} NDU Lesson Plan Generator - FAQs {% endblock %}</h1>
+ <div class="w3-container">
+    <div id="hallucination">
+        <h3>LLM hallucination</h3>
+        <p>
+            Large-Language-Models (LLM) suffer from a phenomenon called "hallucination". If it does not have sufficient facts, a LLM will not be aware of it
+            and will just try to give you a text that seems formally correct. Therefore, LLMs even make up facts that are not true. Therefore, you should 
+            always check the result for plausibility and not ask questions to LLM where you already expect it to have no or only few information about.
+        </p>
+
+        <h3>Any other questions?</h3>
+        <p>
+            Feel free to contact us via mail: <a href="mailto:skloker@ndejjeuniversity.ac.ug">skloker@ndejjeuniversity.ac.ug</a>
+        </p>
+    </div>
+
+ </div>
+  
+{% endblock %}

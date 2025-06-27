@@ -1,0 +1,176 @@
+Create a lesson plan for secondary school in Uganda for the topic below and based only on the provided context:
+<topic>
+{input}
+</topic>
+
+<context>
+{context}
+</context>
+
+As learning outcomes, please use these ones provided here (below). You can adapt them slightly to fit better to the provided context or make them gramatically correct.
+Please also add new learning outcomes so that there are at least three.
+<learning_outcomes>
+{learningObjectives}
+</learning_outcomes>
+
+Please consider the class size, and state how you considered it.
+<class_size>
+{class_size}
+</class_size>
+
+For class sizes <30 you can use activities that include presentation afterwards.
+For class sizes from 30-60 you might still have group work, but presentation must be suitable for many students.
+For class sizes from 60-90 group work might require to assign the same topic to multiple groups. Maybe not every group will be able to present.
+For class sizes >90, think of alternative ways of engaging the students into discussion.
+
+Please split up to topic to {periods} periods and add a procedure block (hook, instruction, activiy, wrap-up and assessment) for each period.                                                  
+Please indicate where gender or special need issues my be relevant in the topic. Make sure that you only generate the requested number of periods.
+
+Please use following format for the lesson plan (below), please leave the html tags and only fill the indicated placeholders:
+
+<format>
+Lesson Plan Template
+
+<table class="w3-table w3-striped w3-border">
+<tr><td>Theme:</td><td>(Fill in the theme)</td></tr>
+<tr><td>Grade Level:</td><td>(Fill in the grade level)</td></tr>
+<tr><td>Topic:</td><td>(Fill in the specific topic)</td></tr>
+<tr><td>Periods:</td><td>(Fill in the number of periods)</td></tr>
+<tr><td>School:</td><td>(Leave this field blank)</td></tr>
+<tr><td>Teacher:</td><td>(Leave this field blank)</td></tr>
+<tr><td>Date and Time:</td><td>(Leave this field blank)</td></tr>
+</table>
+
+<h4>Preparation:</h4>
+
+<table class="w3-table w3-striped w3-border">
+<tr>
+<td>Learning Outcomes:</td>
+<td>
+    What do you want students to know by the end of the lesson? (Knowledge)
+
+</td>
+</tr>
+
+<tr>
+<td>Generic skill(s)</td>
+<td>
+    What generic skills do you want students to develop? (Skills)
+
+    Chose at least two from the following list that suit the topic:
+
+    - Critical thinking and problem-solving
+    -- Plan and carry out investigations
+    -- Sort and analyse information
+    -- Identify problems and ways forward
+    -- Predict outcomes and make reasoned decisions
+    -- Evaluate different solutions
+
+    - Creativity and innovation
+    -- Use imaginations to explore possibilities
+    -- Work with others to generate ideas
+    -- Suggest and develop new solutions
+    -- Try out innovative alternatives
+    -- Look for patterns and make generalisations
+
+    - Communication
+    -- Listen attentively and with comprehension
+    -- Talk confidently and explain ideas/opinions clearly
+    -- Read accurately and fluently
+    -- Write and present coherently
+    -- Use a range of media to communicate ideas
+
+    - Co-operation and Self-Directed Learning
+    -- Work effectively in diverse teams
+    -- Interact effectively with others
+    -- Take responsibility for own learning
+    -- Work independently with persistence
+    -- Manage goals and time
+
+    - Mathematical Computation and ICT Proficiency
+    -- Use numbers and measurements accurately
+    -- Interpret and interrogate mathematical data
+    -- Use mathematics to justify and support decisions
+    -- Use technology to create, manipulate and process information
+    -- Use technology to collaborate, communicate and refine their work
+</td>
+</tr>
+
+<tr>
+<td>Value(s)</td>
+<td>
+    What values should be teached to the students while they are teached this topic?
+
+    Chose at least two from the following list that suit the topic:
+    - Respect for humanity and environment
+    - Honesty; uphold and defend the truth at all times
+    - Justice and fairness in dealing with others
+    - Hard work for self-reliance
+    - Integrity; moral uprightness and sound character
+    - Creativity and innovativeness
+    - Social Responsibility
+    - Social Harmony
+    - National Unity
+    - National Consciousness and patriotism
+</td>
+</tr>
+
+<tr>
+<td>Cross cutting issue(s)</td>
+<td>
+    What cross cutting issues might be relevant while discussing and teaching this topic?
+</td>
+</tr>
+
+<tr>
+<td>Materials:</td>
+<td>
+    List all materials needed for the lesson, considering resource limitations in developing countries.
+    Be creative! Can you use local materials or technology?
+</td>
+</tr>
+</table>
+
+<h4>Procedure:</h4>
+
+<table class="w3-table w3-striped w3-border procedure">
+<tr>
+<td>Hook (10 minutes):</td>
+<td>
+    Start with an engaging activity related to the topic. This could be a question, a demonstration, a story, or a real-life example relevant to students' lives.</td>
+</tr>
+
+<tr>
+<td>Instruction (30-35 minutes):</td>
+<td>
+    Clearly explain the key concepts of the topic.
+    Use simple language, visuals (diagrams, drawings), and real-world examples whenever possible.
+    Break down complex ideas into smaller, manageable steps.
+</td>
+</tr>
+
+<tr>
+<td>Activity (25-30 minutes):</td>
+<td>
+    Give students an opportunity to practice what they learned. This could be:
+        An individual exercise (writing, drawing)
+        A group activity (discussion, role-play)
+        A project using local materials
+        A game that reinforces key concepts
+</td>
+</tr>
+
+<tr>
+<td>Wrap-up & Assessment (10 minutes):</td>
+<td>
+    Briefly review the main points of the lesson.
+    Assess student understanding through questions, discussions, or a short exit ticket (a quick task to gauge learning).
+</td>
+</tr>
+</table>
+</format>
+
+Please give the result in the html table above. Make really sure, that you use this provided format and that it is html.
+Make sure you have propper formatting for lists and do not display them just as floating text.
+
+

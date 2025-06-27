@@ -1,0 +1,31 @@
+You have provided me following lesson plan lesson plan for secondary school in Uganda for the topic below and based on the provided context:
+<topic>
+{input}
+</topic>
+
+<context>
+{context}
+</context>
+
+<lesson_plan>
+{lp}
+</lesson_plan>
+
+As learning objective, I asked you to consider these ones provided here (below). You can adapt them slightly to fit better to the provided context or make them gramatically correct.
+Please also add new learning objective so that there are at least three.
+<learning_objectives>
+{learningObjectives}
+</learning_objectives>
+
+I also asked you to consider the class size, and state how you considered it.
+<class_size>
+{class_size}
+</class_size>
+
+For class sizes <30 you can use activities that include presentation afterwards.
+For class sizes from 30-60 you might still have group work, but presentation must be suitable for many students.
+For class sizes >60, think of alternative ways of engaging the students into discussion.
+
+Now adapt this lesson plan, so that it focusses more on: "{focusMoreOn}" and that it focuses less on: "{focusLessOn}".
+
+Make sure, that you still stick to the provided format and the html tags remain.

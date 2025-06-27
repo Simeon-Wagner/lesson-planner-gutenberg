@@ -1,0 +1,320 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1 style="display: none;">{% block title %} NDU Lesson Plan Generator {% endblock %}</h1>
+  <script>
+    $("#menu-lpg").addClass("w3-green");
+    var lp = "";
+
+    $(document).ready(function() {
+      $("#submitBtn").click(function(e) {
+        e.preventDefault();
+        generateLessonPlan("generate");
+      });
+
+      $("#regenerateBtn").click(function(e) {
+        e.preventDefault();
+        generateLessonPlan("regenerate");
+      });
+    });
+
+    const emoticons = ["&#128201;", "&#128221;", "&#128218;"];
+    let currentEmoticonIndex = 0;
+
+    // Function to handle AJAX for lesson plan genearation
+    function generateLessonPlan(mode) {
+      //let password = prompt("Please enter the passowrd", "XX-XXXX");
+      //if (password != "77-7107") {
+      //  alert("Wrong password. Please try again.");
+      //  return;
+      //}
+
+      /* if (!(/\b\w+\b(?:.*?\b\w+\b){2}/.test($("#topic").val()))) {
+        alert("A topic must be of at least three words to be processed.");
+        return 
+      }  */
+
+      $("#form_error_message").html("")
+      
+      if ($("#topic").val() == "") {
+
+         $("#form_error_message").html("Topic cannot be empty.");
+        return 
+      }
+
+      if (!(/\b\w+\b(?:.*?\b\w+\b){2}/.test($("#learningObjectives").val()))) {
+         $("#form_error_message").html("A learning objective must be of at least three words to be processed.");
+        return 
+      } 
+
+      var data = JSON.stringify({
+          mode: mode,
+          lp: lp,
+          studentLevel: $("#studentLevel").val(),
+          subject: $("#subject").val(),
+          classSize: $("#classSize").val(),
+          topic: $("#topic").val(),
+          learningObjectives: $("#learningObjectives").val(),
+          periods: $("#periods").val(),
+          focusMoreOn: $("#focusMoreOn").val(),
+          focusLessOn: $("#focusLessOn").val(),
+          difficulty: $('input[name="difficulty"]:checked').val(),
+          genderIssues: $('#genderIssues').is(":checked"),
+          specialNeeds: $('#specialNeeds').is(":checked")
+      });       
+
+        $(".w3-btn").attr("disabled", "disabled");
+        var intervalId = setInterval(displayEmoticon, 750);
+        $("#waitingScreen").show();
+
+        $.ajax({
+            url: "/generateLessonPlan",
+            type: "POST",
+            timeout:180000,
+            contentType: "application/json",
+            data: data,
+            success: function(response) {
+                lp = response.answer;
+                $("#lessonPlan").html(lp);
+                $("#lessonPlanToolbar").show();
+
+                var pagesComment = pagesComment = "This lesson plan is based on pages " + response.pages.toString().replaceAll(",", ", ") + " of this <a href='/static/student_books/s1_" + response.subject + "_student_2020_prototype.pdf' target='_blank'>textbook</a>.";
+                                
+                $("#lessonPlanSourcePages").html(pagesComment);
+                
+                if (response.pages.length < 4) {
+                  $("#lessonPlanSourcePagesWarning").show();
+                } else {
+                  $("#lessonPlanSourcePagesWarning").hide();
+                }
+            },
+            error: function(error) {
+              alert("Something went terribly wrong. Sorry...");
+            },
+            complete: function(data) {
+              $(".w3-btn").removeAttr("disabled");
+
+              clearInterval(intervalId);
+              $("#waitingEmoticon").html(""); // Optional: Clear the emoticon after request finishes
+              $("#waitingScreen").hide();
+            }
+        });
+    }
+
+    // Function to display emoticon
+    function displayEmoticon() {
+        $("#waitingEmoticon").html("We are working on your request.<br> Please wait a moment... " + emoticons[currentEmoticonIndex]);
+        currentEmoticonIndex = (currentEmoticonIndex + 1) % emoticons.length;
+    }
+
+    // Update the path to view the syllabus
+    function updateSyllabusPath() {
+      var subject = $("#subject").val();
+      var text = $("#subject option:selected").text();
+      var path = 'View the ' + text + ' syllabus <a href="/static/syllabus/' + subject + '_syllabus_2019.pdf" target="_blank">&#128462; here</a> to check available topics.';
+      $("#syllabus_path").html(path);
+    }
+
+    // Function to handle tabs in "Toolset"
+    function openToolset(el, toolsetName) {
+      var i;
+      var x = document.getElementsByClassName("toolset");
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";  
+      }
+      
+      document.getElementById(toolsetName).style.display = "block";  
+
+      $(".toolset-tab").removeClass("w3-black");
+      $(".toolset-tab").addClass("w3-grey");
+      $(el).removeClass("w3-grey");
+      $(el).addClass("w3-black");
+    }
+
+    function allowEditing(){
+      $("table").each(function() {
+        if (!$(this).attr("contenteditable")) {
+          $(this).attr("contenteditable", "true");
+        }
+      });
+    }
+
+  </script>
+
+<div id="waitingScreen">
+  <div id="waitingEmoticon"></div>
+</div>
+
+<div class="w3-container">
+
+ <p id="intro">This lesson plan generator, created by the Ndejje University AI Research Lab, utilizes artificial intelligence to suggest lesson plans tailored for Ugandan secondary schools and aligned with official government-accredited textbooks. As this is a prototype, please be aware that use is at your own risk and Ndejje University holds no liability for the generated content.</p>
+
+  <form id="settings" class="w3-container w3-card-4">
+    <div class="w3-row w3-margin">
+      <div class="w3-half">
+        <div class="w3-margin">
+          <label for="studentLevel">Student Level<span class="w3-text-red">*</span>:</label>
+          <select class="w3-select w3-border" id="studentLevel" required>
+            <option value="">Select Level</option>
+            <option value="S1">S1</option>
+            <option value="S2" disabled>S2</option>
+            <option value="S3" disabled>S3</option>
+            <option value="S4" disabled>S4</option>
+            <option value="S5" disabled>S5</option>
+            <option value="S6" disabled>S6</option>
+          </select>
+        </div>
+        <div class="w3-margin">
+          <label for="subject">Subject<span class="w3-text-red">*</span>:</label>
+          <select class="w3-select w3-border" id="subject" required onchange="updateSyllabusPath()">
+            <option value="">Select Subject</option>
+            <option value="art_and_design">Art and Design</option>
+            <option value="biology">Biology</option>
+            <option value="chemistry">Chemistry</option>
+            <option value="cre">CRE</option>
+            <option value="english">English</option>
+            <option value="entrepreneurship">Entrepreneurship</option>
+            <option value="french">French</option>
+            <option value="general_science">General Science</option>
+            <option value="geography">Geography</option>
+            <option value="german">German</option>
+            <option value="history">History and Political Education</option>
+            <option value="kiswahili">Kiswahili</option>
+            <option value="ict">Information and Communitcation Technology</option>
+            <option value="mathematics">Mathematics</option>
+            <option value="nutrition">Nutrition</option>
+            <option value="performing_arts">Performing Arts</option>
+            <option value="physical_education">Physical Education</option>
+            <option value="physics">Physics</option>
+            <option value="technology_and_design">Technology and Design</option>
+          </select>
+          <div id="syllabus_path">
+
+          </div>
+        </div>
+        
+      </div>
+      <div class="w3-half ">
+        <div class="w3-margin">
+          <label for="periods">Number of Periods:</label>
+          <select class="w3-select w3-border" id="periods" required>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+          </select>
+        </div>      
+        <div class="w3-margin">
+          <label for="classSize">Class Size:</label>
+          <select class="w3-select w3-border" id="classSize" required>
+            <option value="<30">&lt; 30</option>
+            <option value="30-60">30-60</option>
+            <option value="60-90">60-90</option>
+            <option value=">90">&gt; 90</option>
+          </select>
+        </div>       
+      </div>
+    </div>
+
+    <div id="form_error_message" class="w3-row w3-margin">
+
+    </div>
+
+    <div class="w3-row w3-margin">
+      <div class="w3-col s12">
+        <label for="topic">Topic:<span class="w3-text-red">*</span>:</label>
+        <textarea class="w3-input w3-border" id="topic" rows="2" placeholder="Please provide a topic which is covered in the selected level and subject." required></textarea>
+      </div>
+    </div>
+    <div class="w3-row w3-margin">
+      <div class="w3-col s12">
+        <label for="learningObjectives">Learning Outcomes:<span class="w3-text-red">*</span>:</label>
+        <textarea class="w3-input w3-border" id="learningObjectives" rows="5" placeholder="Please provide your learning objectives for the given topic. Provide at least one. Provide one per line." required></textarea>
+      </div>
+    </div>
+    <div class="w3-container w3-center w3-margin">
+      <!-- <div class="w3-center w3-pale-yellow">
+        <p>We are currently maintaining our service. 
+          Generation of lesson plans is therefore deactivated for publicity, until we have verified that the results come up to highest standards. 
+          We will soon come back with improved service and features.</p>
+      </div> -->
+      <button type="submit" class="w3-btn w3-green w3-margin-top" id="submitBtn">Generate Lesson Plan</button>
+    </div>
+    
+  </form>
+
+  <div class="w3-container" id="lessonPlanToolbar" style="display: none;">
+
+    <div class="w3-bar">
+      <button class="w3-bar-item w3-button w3-black toolset-tab" onclick="openToolset(this, 'lp-info')">Information</button>
+      <button class="w3-bar-item w3-button w3-grey toolset-tab" onclick="openToolset(this, 'lp-modify')">Modification</button>
+      <button class="w3-bar-item w3-button w3-grey toolset-tab" onclick="openToolset(this, 'lp-edit')">Edit</button>
+    </div> 
+
+    <div id="lp-info" class="toolset">
+      <p id="lessonPlanSourcePages"></p>
+      <p id="lessonPlanSourcePagesWarning" style="color: #aa0000">
+        These are very few pages. Be careful, as with only few information, the Lesson Plan Generator may tend to deliver bad results or even make up facts. 
+        For more information <b>read our FAQ section on "<a href="/faq#hallucination" target="_blank">LLM hallucination</a>"</b>. 
+      </p>
+    </div>
+    <div id="lp-modify" class="toolset" style="display:none">
+      <form class="w3-container">
+        <p>      
+          <label class="w3-text-grey">Focus more on (topic):</label>
+          <input class="w3-input w3-border" id="focusMoreOn" type="text">
+          <i>Note: If a topic is completely missing, you should rather adjust the topic in the initial form above, instead of adding it here.</i>
+        </p>
+        <p>      
+          <label class="w3-text-grey">Focus less on (topic):</label>
+          <input class="w3-input w3-border" id="focusLessOn" type="text">
+        </p>
+        <br>
+          <div class="w3-row">
+          <div class="w3-half">
+            <h4>Difficulty</h4>
+            <input class="w3-radio" type="radio" name="difficulty" value="harder" >
+            <label>It's to simple. Make it harder.</label>
+            <br>
+            <input class="w3-radio" type="radio" name="difficulty" value="no_change" checked="">
+            <label>The difficulty level is fine.</label>
+            <br>
+            <input class="w3-radio" type="radio" name="difficulty" value="simpler">
+            <label>It's to hard. Make it simpler.</label>
+          </div>
+        
+          <div class="w3-half">
+            <h4>Issues</h4>
+            <p>Focus more on these issues:</p>
+            <input id="genderIssues" name="genderIssues" class="w3-check" type="checkbox">
+            <label>Gender issues</label>
+            <br>
+            <input id="specialNeeds" name="specialNeeds" class="w3-check" type="checkbox">
+            <label>Special needs</label>
+
+          </div>
+          </div>
+          <p><button id="regenerateBtn" type="button" class="w3-btn w3-padding w3-teal" style="width:120px">Re-generate &nbsp; ❯</button></p>
+        </form>
+    </div>
+    <div id="lp-edit" class="toolset" style="display:none">
+      <p>Allow direct editing. (This feature is still in development, it might not always work properly).</p>
+      <button class="w3-btn w3-padding w3-teal" style="width:120px" onclick="allowEditing()">&#9998; Edit</button>
+    </div>
+
+    
+   
+  </div>
+  <div id="lessonPlan">
+
+  </div>
+</div>
+
+
+</div>
+
+{% endblock %}
