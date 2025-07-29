@@ -21,9 +21,6 @@ def index():
         {"value": "1. Curso", "label": "1. Curso", "disabled": False},
         {"value": "2. Curso", "label": "2. Curso", "disabled": False},
         {"value": "3. Curso", "label": "3. Curso", "disabled": False}
-        # {"value": "1. Curso"},
-        # {"value": "2. Curso"},
-        # {"value": "3. Curso"}
     ]
 
     subjects = [
@@ -31,7 +28,13 @@ def index():
         {"value": "Castellano", "label": "Castellano", "disabled": False},
         {"value": "Guarani", "label": "Guarani", "disabled": False}
     ]
-    return render_template('index.html', levels=levels, subjects=subjects)
+
+    periods = [
+        {"value": "35", "label": "1h", "disabled": False},
+        {"value": "70", "label": "2h", "disabled": False},
+        {"value": "105", "label": "3h", "disabled": False}
+    ]
+    return render_template('index.html', levels=levels, subjects=subjects, periods=periods)
 
 @app.route('/faq/')
 def faq():
@@ -49,26 +52,21 @@ def getLessonPlan():
             prompt_template_string = file.read()
 
         template_vars = {
-            "input": data["topic"],
-            "subject" :  data["subject"], #this is important for the retriever chain. Do not rename.
-            "level" : data["level"]
+            "input": data["topic"], #this is important for the retriever chain. Do not rename.
+            "subject" :  data["subject"],
+            "periods" : int(data["periods"])/35,
+            "period_length" : data["periods"],
+            "level" : data["level"],
+            "learningObjectives" : data["learning_obj"]
         }
         print(template_vars)
 
-        # prompt_template_string = prompt_template_string.replace("[topic]",template_vars["topic"] )
-        # prompt_template_string = prompt_template_string.replace("[level]",template_vars["level"] )
-        # prompt_template_string = prompt_template_string.replace("[subject]",template_vars["subject"] )
-
-   
-        store_guide = "faiss-stores/becoming-imaginal-2-feb-2025-es"
-        store_curriculum = "faiss-stores/bachillerato-cientifico-con-enfasis-en-ciencia-sociales"
+        merged_vector_store = "faiss-stores/merged_index"
 
         # BUILD THE RETRIEVAL CHAIN
         llm = ChatCohere(cohere_api_key=os.getenv('COHERE_API_KEY'), model="command-r-08-2024")
         embeddings =  CohereEmbeddings(cohere_api_key=os.getenv('COHERE_API_KEY'), model="embed-multilingual-v3.0" )
-        index_guide = FAISS.load_local(store_guide, embeddings, allow_dangerous_deserialization=True)
-        index_curriculum = FAISS.load_local(store_curriculum, embeddings, allow_dangerous_deserialization=True)
-        index_guide.merge_from(index_curriculum)
+        index_guide = FAISS.load_local(merged_vector_store, embeddings, allow_dangerous_deserialization=True)
 
         prompt = ChatPromptTemplate.from_template(prompt_template_string)
 
@@ -79,7 +77,6 @@ def getLessonPlan():
 
         response = retrieval_chain.invoke(template_vars)
 
-        # PREPARE THE OUTPUT
         pages = []
 
         for p in response["context"]:
@@ -100,4 +97,4 @@ if __name__ == "__main__":
     # removed before deploying a production app.
     load_dotenv('./.env')
     app.debug = True
-    app.run()
+    app.run(host='0.0.0.0', port=8080)

@@ -1,2 +1,87 @@
-Generate a lesson plan based on the principles, concepts and tools of the Becomin Imaginal Fieldbook. The lesson is for the {level} which is the last class in Paraguay and the subject {input}.
-This is the topic that should be treated in this lesson:{input}. Return the content nice and structured as an html table. {context}
+Create a lesson plan for secondary school in Paraguay for the subject and topic below, using *only* the provided context blocks (curriculum excerpts, ministry guidelines, teaching-method snippets, etc.).  
+Apply the recommended pedagogical approaches found in the context (e.g. Profound Learning / Imaginal methods, cooperative tasks, active learning, inclusive strategies).
+
+► The lesson plan must be *highly concrete, practical and feasible* within the calculated time blocks, tailored to the stated grade level and typical abilities of Paraguayan students. Avoid generic activities; describe tasks, questions, materials and timings in realistic classroom detail.
+
+<subject>
+{subject}
+</subject>
+
+<topic>
+{input}
+</topic>
+
+<period_length>
+    {period_length}
+</period_length>
+
+<periods>
+    {periods}                   <!-- e.g. 2 -->
+</periods>
+
+<!-- --- Zeitaufteilung: 10 % / 40 % / 40 % / 10 %, auf 5-min-Schritte runden ---
+     total_minutes  = period_length × periods
+     hook_minutes   = max(5, round(total_minutes * 0.10 / 5) * 5)
+     instr_minutes  = round(total_minutes * 0.40 / 5) * 5
+     activity_mins  = round(total_minutes * 0.40 / 5) * 5
+     wrap_minutes   = total_minutes - hook_minutes - instr_minutes - activity_mins
+-->
+
+As learning outcomes, please use the list provided here; feel free to adapt wording slightly to fit the context and add additional outcomes so there are at least three in total.
+
+<learning_outcomes>
+{learningObjectives}
+</learning_outcomes>
+
+Divide the content into exactly {periods} periods and provide a procedure block (hook, instruction, activity, wrap-up & assessment) for *each* period, using the calculated minutes above.  
+Indicate any points where gender or special-needs considerations are relevant.
+
+<format>
+Lesson Plan Template
+
+<table class="w3-table w3-striped w3-border">
+<tr><td>Theme:</td><td>(Fill in the theme)</td></tr>
+<tr><td>Grade Level:</td><td>(Fill in the grade level)</td></tr>
+<tr><td>Subject:</td><td>(Fill in the subject)</td></tr>
+<tr><td>Topic:</td><td>(Fill in the specific topic)</td></tr>
+<tr><td>Periods:</td><td>(Fill in the number of periods)</td></tr>
+</table>
+
+<h4>Preparation:</h4>
+
+<table class="w3-table w3-striped w3-border">
+<tr>
+<td>Learning Outcomes:</td>
+<td>What will students know and be able to do? (Knowledge)</td>
+</tr>
+
+<tr>
+<td>Generic skill(s)</td>
+<td>Select at least two skills that best suit the topic from the list below:<br>
+- Critical thinking and problem-solving …<br>
+- Creativity and innovation …<br>
+- Communication …<br>
+- Co-operation and Self-Directed Learning …<br>
+- Mathematical Computation and ICT Proficiency …</td>
+</tr>
+
+<tr>
+<td>Materials:</td>
+<td>List all materials required, favouring locally available or low-cost resources.</td>
+</tr>
+</table>
+
+<h4>Procedure:</h4>
+
+<table class="w3-table w3-striped w3-border procedure">
+<tr><td>Hook (hook_minutes min):</td><td>…</td></tr>
+<tr><td>Instruction (instruction_minutes min):</td><td>…</td></tr>
+<tr><td>Activity (activity_minutes min):</td><td>…</td></tr>
+<tr><td>Wrap-up &amp; Assessment (wrap_minutes min):</td><td>…</td></tr>
+</table>
+</format>
+
+Please give the result in the html table above. Make really sure, that you use this provided format and that it is html.
+Make sure you have propper formatting for lists and do not display them just as floating text.
+
+{context}

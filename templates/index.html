@@ -14,8 +14,17 @@
       const data = {
         subject: $("#subject").val(),
         level: $("#level").val(),
-        topic: $("#topic").val()
+        periods: $("#period").val(),
+        topic: $("#topic").val(),
+        learning_obj: $("#learning_obj").val()
       };
+
+      $("#lp-response").html(`
+        <div class="text-center my-3">
+          <div class="spinner-border text-primary" role="status"></div>
+          <p class="mt-2">Generando el plan de clase...</p>
+        </div>
+      `);
 
       $.ajax({
         url: "/generateLessonPlan",
@@ -37,7 +46,7 @@
           $("#lp-response").html(html);
         },
         error: function (xhr, status, error) {
-          $("#lp-response").html(`<div class="alert alert-danger">Error: ${error}</div>`);
+          $("#lp-response").html(`<div class="alert alert-danger">Error: ${error}</div>`);  
         }
       });
     });
@@ -50,36 +59,60 @@
     <p class="text-muted">Colegio Gutenberg</p>
   </div>
 
-  <form>
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <label for="subject" class="form-label">Materia</label>
-        <select id="subject" class="form-select">
-          {% for subject in subjects %}
-          <option value="{{subject.label}}">{{subject.label}}</option>
-          {% endfor %}
-        </select>
-      </div>
-
-      <div class="col-md-4">
-        <label for="level" class="form-label">Grado</label>
-        <select id="level" class="form-select">
-          {% for level in levels %}
-          <option value="{{level.label}}">{{level.label}}</option>
-          {% endfor %}
-        </select>
-      </div>
-
-      <div class="col-md-4">
-        <label for="topic" class="form-label">Tema</label>
-        <input type="text" id="topic" class="form-control" placeholder="Escriba el tema">
-      </div>
+  <form enctype="multipart/form-data">
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <label for="subject" class="form-label">Materia</label>
+      <select id="subject" class="form-select">
+        {% for subject in subjects %}
+        <option value="{{subject.value}}">{{subject.label}}</option>
+        {% endfor %}
+      </select>
     </div>
 
-    <div class="text-center">
-      <button id="submitBtn" class="btn btn-primary">Generar Plan</button>
+    <div class="col-md-4">
+      <label for="level" class="form-label">Grado</label>
+      <select id="level" class="form-select">
+        {% for level in levels %}
+        <option value="{{level.value}}">{{level.label}}</option>
+        {% endfor %}
+      </select>
     </div>
-  </form>
+
+    <div class="col-md-4">
+      <label for="period" class="form-label">Horas</label>
+      <select id="period" class="form-select">
+        {% for period in periods %}
+        <option value="{{period.value}}">{{period.label}}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <label for="topic" class="form-label">Tema</label>
+      <textarea id="topic" class="form-control" rows="3" placeholder="Escriba el tema"></textarea>
+    </div>
+
+    <div class="col-md-6">
+      <label for="learning_obj" class="form-label">Objetivos de aprendizaje</label>
+      <textarea id="learning_obj" class="form-control" rows="3" placeholder="Learning Objectives"></textarea>
+    </div>
+  </div>
+
+  <!-- <div class="row mb-4">
+    <div class="col-md-6">
+      <label for="pdfUpload" class="form-label">Subir archivo PDF (opcional)</label>
+      <input type="file" id="pdfUpload" name="pdfUpload" class="form-control" accept="application/pdf">
+    </div>
+  </div> -->
+
+  <div class="text-center">
+    <button id="submitBtn" class="btn btn-primary">Generar Plan</button>
+  </div>
+</form>
+
 
   <div id="lp-response" class="mt-4"></div>
 </div>
