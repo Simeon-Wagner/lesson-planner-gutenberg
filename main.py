@@ -9,14 +9,29 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 from langchain_cohere import ChatCohere
 from langchain_cohere import CohereEmbeddings
-
-import config
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+
+    levels = [
+        {"value": "1. Curso", "label": "1. Curso", "disabled": False},
+        {"value": "2. Curso", "label": "2. Curso", "disabled": False},
+        {"value": "3. Curso", "label": "3. Curso", "disabled": False}
+        # {"value": "1. Curso"},
+        # {"value": "2. Curso"},
+        # {"value": "3. Curso"}
+    ]
+
+    subjects = [
+        {"value": "Matematica", "label": "Matematica", "disabled": False},
+        {"value": "Castellano", "label": "Castellano", "disabled": False},
+        {"value": "Guarani", "label": "Guarani", "disabled": False}
+    ]
+    return render_template('index.html', levels=levels, subjects=subjects)
 
 @app.route('/faq/')
 def faq():
@@ -24,92 +39,42 @@ def faq():
 
 @app.route('/generateLessonPlan', methods=["POST"])
 def getLessonPlan():
-    '''
-        This endpoint generates a lesson plan based on the input provided in the POST request.
-    
-        The method accepts a JSON payload containing various parameters such as:
-        - `mode`: Specifies the template to use for generating the lesson plan (either generate or regenerate).
-        
-        # Variables for "generate" and "regenerate"
-        - `topic`: The main topic of the lesson.
-        - `learningObjectives`: The learning objectives for the lesson.
-        - `classGrade`: The class grade.
-        - `studentLevel`: The level of the students (e.g., grade or proficiency).
-        - `subject`: The subject of the lesson.
-
-        # Variables only for "regenerate"
-        - `focusMoreOn`: Areas to emphasize in the lesson.
-        - `focusLessOn`: Areas to de-emphasize in the lesson.
-        - `lp`: The previous lesson plan to adapt.
-        - `specialNeeds`: A flag to include considerations for special needs.
-        - `difficulty`: Specifies the difficulty level of the lesson plan.
-
-    
-        The method performs the following steps:
-        1. Reads the appropriate prompt template based on the `mode`.
-        2. Dynamically updates the template with the provided input variables.
-        3. Adjusts the template based on optional flags like `genderIssues`, `specialNeeds`, and `difficulty`.
-        4. Loads the appropriate FAISS vector store for the specified subject.
-        5. Builds a retrieval chain using LangChain components, including a language model and retriever.
-        6. Executes the retrieval chain to generate a response.
-        7. Extracts relevant pages and prepares the output in JSON format.
-    
-        Returns:
-            A JSON response containing:
-            - `answer`: The generated lesson plan.
-            - `pages`: A list of pages referenced in the response.
-            - `subject`: The subject of the lesson plan.
-    
-        In case of an error, it returns a JSON response with the error message and a 400 status code.
-    '''
     try:
         data = request.get_json()
-        mode = data["mode"]
+        print("Received data:", data)
 
         # PREPARE THE PROMPT
-        with open("prompt_templates/{}.txt".format(mode), "r") as file:
+        # Here they used the mode parameter to specify wether a lesson is regenerated or generated the first time. 
+        with open("C:\\Users\\wagne\\Desktop\\gutenberg\\ai-gutenberg\\lesson-planner-gutenberg\\prompt_templates\\test.txt", "r") as file:
             prompt_template_string = file.read()
 
         template_vars = {
-            "input" :  data["topic"], #this is important for the retriever chain. Do not rename.
-            "learningObjectives" : data["learningObjectives"],
-            "classGrade": data["classGrade"],
-            "focusMoreOn" : data["focusMoreOn"],
-            "focusLessOn" : data["focusLessOn"],
-            "lp" : data["lp"]
+            "input": data["topic"],
+            "subject" :  data["subject"], #this is important for the retriever chain. Do not rename.
+            "level" : data["level"]
         }
+        print(template_vars)
 
-        if (data["genderIssues"]):
-            prompt_template_string = prompt_template_string + """
-                Please include considerations regarding gender issues in the lesson development and activities. Please provide an example therefore.
-            """
+        # prompt_template_string = prompt_template_string.replace("[topic]",template_vars["topic"] )
+        # prompt_template_string = prompt_template_string.replace("[level]",template_vars["level"] )
+        # prompt_template_string = prompt_template_string.replace("[subject]",template_vars["subject"] )
 
-        if (data["specialNeeds"]):
-            prompt_template_string = prompt_template_string + """
-                Please include considerations regarding special needs in the lesson development and activities. Please provide an example therefore.
-            """
-
-        if (data["difficulty"] != "no_choice"):
-            prompt_template_string = prompt_template_string + """
-                Please adapt the difficulty level of the lesson plan you have given me. Make it a bit {}.
-            """.format(data["difficulty"])
-
-        # LOOK FOR THE RIGHT VECTOR STORE
-        lp_student_level = data["studentLevel"]
-        lp_subject = data["subject"]
-
-        store = ""
-        store = "faiss_stores/s1_{}_student_2020_prototype".format(lp_subject)
+   
+        store_guide = "faiss-stores/becoming-imaginal-2-feb-2025-es"
+        store_curriculum = "faiss-stores/bachillerato-cientifico-con-enfasis-en-ciencia-sociales"
 
         # BUILD THE RETRIEVAL CHAIN
-        llm = ChatCohere(cohere_api_key="something", model="command-r-08-2024")
-        vector = FAISS.load_local(store, CohereEmbeddings(cohere_api_key="something", model="embed-english-v3.0"), allow_dangerous_deserialization=True)
+        llm = ChatCohere(cohere_api_key=os.getenv('COHERE_API_KEY'), model="command-r-08-2024")
+        embeddings =  CohereEmbeddings(cohere_api_key=os.getenv('COHERE_API_KEY'), model="embed-multilingual-v3.0" )
+        index_guide = FAISS.load_local(store_guide, embeddings, allow_dangerous_deserialization=True)
+        index_curriculum = FAISS.load_local(store_curriculum, embeddings, allow_dangerous_deserialization=True)
+        index_guide.merge_from(index_curriculum)
 
         prompt = ChatPromptTemplate.from_template(prompt_template_string)
 
         document_chain = create_stuff_documents_chain(llm, prompt)
 
-        retriever = vector.as_retriever()
+        retriever = index_guide.as_retriever()
         retrieval_chain = create_retrieval_chain(retriever, document_chain)
 
         response = retrieval_chain.invoke(template_vars)
@@ -122,10 +87,10 @@ def getLessonPlan():
 
         return jsonify({
             "answer": response["answer"],
-            "pages":list(set(pages)),
-            "subject": lp_subject,
+            "pages":list(set(pages))
             })
     except Exception as e:
+        print(str(e))
         return jsonify({"error": str(e)}), 400
 
 
@@ -133,6 +98,6 @@ def getLessonPlan():
 if __name__ == "__main__":
     # Setting debug to True enables debug output. This line should be
     # removed before deploying a production app.
-    
+    load_dotenv('./.env')
     app.debug = True
     app.run()

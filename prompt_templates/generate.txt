@@ -1,4 +1,4 @@
-Create a lesson plan for secondary school in Uganda for the topic below and based only on the provided context:
+Create a lesson plan for secondary school in Paraguay for the topic below and based only on the provided context:
 <topic>
 {input}
 </topic>

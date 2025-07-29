@@ -1,0 +1,2 @@
+Generate a lesson plan based on the principles, concepts and tools of the Becomin Imaginal Fieldbook. The lesson is for the {level} which is the last class in Paraguay and the subject {input}.
+This is the topic that should be treated in this lesson:{input}. Return the content nice and structured as an html table. {context}

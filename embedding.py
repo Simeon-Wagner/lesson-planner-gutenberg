@@ -7,6 +7,8 @@ import os
 from dotenv import load_dotenv
 import re
 
+CONST_CHUNK_SIZE = 500
+
 
 def sanitize_filename(name):
     return re.sub(r'[^\w\-_. ]', '_', name).strip().replace(' ', '_')
@@ -17,7 +19,7 @@ def createVectorStore(file_path, file_name):
   vector_store_dir = f'.\\faiss-stores\\{file_name}\\'
   #Split the Document into chunks for embedding and vector storage.
   from langchain.text_splitter import RecursiveCharacterTextSplitter
-  text_splitter = RecursiveCharacterTextSplitter(chunk_size = 500, chunk_overlap = 0)
+  text_splitter = RecursiveCharacterTextSplitter(chunk_size = CONST_CHUNK_SIZE, chunk_overlap = CONST_CHUNK_SIZE*0.1)
   all_splits = text_splitter.split_documents(documents)
 
   embeddings = CohereEmbeddings(cohere_api_key=os.getenv('COHERE_API_KEY'), model="embed-multilingual-v3.0")
@@ -34,10 +36,10 @@ if __name__ == '__main__':
   load_dotenv('./.env')
  
   for filename in os.listdir(directory_path):
-      if filename.endswith(".pdf"):
-          file_path = os.path.join(directory_path, filename)
-          file_name = sanitize_filename(os.path.splitext(filename)[0])  # Extract filename without extension
-          print(file_name)
-          print("start with {}".format(file_name))
-          createVectorStore(file_path, file_name)
-          print("finished with {}".format(file_name))
+    if filename.endswith(".pdf"):
+      file_path = os.path.join(directory_path, filename)
+      file_name = sanitize_filename(os.path.splitext(filename)[0])  # Extract filename without extension
+      print(file_name)
+      print("start with {}".format(file_name))
+      createVectorStore(file_path, file_name)
+      print("finished with {}".format(file_name))
