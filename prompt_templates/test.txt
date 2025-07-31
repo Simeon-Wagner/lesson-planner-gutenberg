@@ -9,6 +9,10 @@ Apply the recommended pedagogical approaches found in the context (e.g. Profound
 &nbsp;&nbsp;• Exponents: r<sup>2</sup> • Operations: 6 × 4, 12 ÷ 3 • Fractions: 3/4  
 Ensure each worked example shows step-by-step calculations and a clearly marked *Final answer:* line.
 
+►  If a previous lesson plan is provided (in HTML format), build upon it. Reference key points or concepts from the previous lesson, and ensure that students have understood them before progressing. If no previous plan is provided, generate a complete lesson plan from scratch.
+
+{previousLessonPlan}
+
 <subject>
 {subject}
 </subject>

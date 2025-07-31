@@ -16,13 +16,17 @@
     $("#submitBtn").click(function (e) {
       e.preventDefault();
 
-      const data = JSON.stringify({
-        subject: $("#subject").val(),
-        level: $("#level").val(),
-        periods: $("#period").val(),
-        topic: $("#topic").val(),
-        learning_obj: $("#learning_obj").val()
-      });
+      const formData = new FormData();
+      formData.append("subject", $("#subject").val());
+      formData.append("level", $("#level").val());
+      formData.append("periods", $("#period").val());
+      formData.append("topic", $("#topic").val());
+      formData.append("learning_obj", $("#learning_obj").val());
+
+      const fileInput = $("#htmlUpload")[0];
+      if (fileInput.files.length > 0) {
+        formData.append("previous_lesson_plan", fileInput.files[0]);
+      }
 
       $("#lp-response").html(`
         <div class="text-center my-3">
@@ -37,8 +41,9 @@
         url: "/generateLessonPlan",
         type: "POST",
         timeout:180000,
-        contentType: "application/json",
-        data: data,
+        data: formData,
+        contentType: false,
+        processData: false,
         success: function(response) {
           const answer = response.answer;
           const pages = response.pages;
@@ -139,12 +144,12 @@
     </div>
   </div>
 
-  <!-- <div class="row mb-4">
+  <div class="row mb-4">
     <div class="col-md-6">
-      <label for="pdfUpload" class="form-label">Subir archivo PDF (opcional)</label>
-      <input type="file" id="pdfUpload" name="pdfUpload" class="form-control" accept="application/pdf">
+      <label for="htmlUpload" class="form-label"> Subir planificación de clases anteriores </label>
+      <input type="file" id="htmlUpload" name="htmlUpload" class="form-control" accept="application/html">
     </div>
-  </div> -->
+  </div>
 
   <div class="text-center">
     <button id="submitBtn" class="btn btn-primary">Generar Plan</button>

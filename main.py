@@ -49,22 +49,39 @@ def faq():
 @app.route('/generateLessonPlan', methods=["POST"])
 def getLessonPlan():
     try:
-        data = request.get_json()
-        print("Received data:", data)
+        # data = request.get_json()
+        # print("Received data:", data)
 
         # PREPARE THE PROMPT
         # Here they used the mode parameter to specify wether a lesson is regenerated or generated the first time. 
         with open("prompt_templates/test.txt", "r", encoding='utf-8') as file:
             prompt_template_string = file.read()
-
+        
         template_vars = {
-            "input": data["topic"], #this is important for the retriever chain. Do not rename.
-            "subject" :  data["subject"],
-            "periods" : int(data["periods"])/35,
-            "period_length" : data["periods"],
-            "level" : data["level"],
-            "learningObjectives" : data["learning_obj"]
+            "input": "", #this is important for the retriever chain. Do not rename.
+            "subject" :  "",
+            "periods" : "",
+            "period_length" : "",
+            
+            "level" : "",
+            "learningObjectives" : "",
+            "previousLessonPlan" : ""
         }
+        print( f"THIS IS THE SUBJECT: {request.form.get("subject")}")
+
+        template_vars["subject"] = request.form.get("subject")
+        template_vars["level"] = request.form.get("level")
+        template_vars["period_length"] =  request.form.get("periods")
+        template_vars["periods"] =  int(template_vars["period_length"])/35
+        template_vars["input"] = request.form.get("topic")
+        template_vars["learningObjectives"] = request.form.get("learning_obj")
+
+        # Extract uploaded file
+
+        uploaded_file = request.files.get("previous_lesson_plan")
+        if uploaded_file:
+            template_vars["previousLessonPlan"] = uploaded_file.read().decode("utf-8")
+        print(uploaded_file)
         print(template_vars)
 
         merged_vector_store = "faiss-stores/merged_index"
