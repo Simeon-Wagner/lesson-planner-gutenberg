@@ -1,7 +1,13 @@
-Create a lesson plan for secondary school in Paraguay for the subject and topic below, using *only* the provided context blocks (curriculum excerpts, ministry guidelines, teaching-method snippets, etc.).  
+Create a lesson plan for secondary school in Paraguay for the subject and topic below, using only the provided context blocks (curriculum excerpts, ministry guidelines, teaching-method snippets, etc.).  
 Apply the recommended pedagogical approaches found in the context (e.g. Profound Learning / Imaginal methods, cooperative tasks, active learning, inclusive strategies).
 
-► The lesson plan must be *highly concrete, practical and feasible* within the calculated time blocks, tailored to the stated grade level and typical abilities of Paraguayan students. Avoid generic activities; describe tasks, questions, materials and timings in realistic classroom detail.
+► The lesson plan must be highly concrete, practical and feasible within the calculated time blocks, tailored to the stated grade level and typical abilities of Paraguayan students. Avoid generic activities; describe tasks, questions, materials and timings in realistic classroom detail.
+
+► For every exercise, example or “create your own task” that appears in the plan, provide 2 – 3 fully worked, ready-to-use examples grouped in an “Examples Bank” at the end of the output. These examples must be specific enough for the teacher to copy directly into worksheets or slides without further editing.
+
+► *Formatting rule for formulas and examples:* Output must be readable in plain HTML/text. Do not use LaTeX, MathML, Markdown equations or images. Use simple HTML entities/tags, e.g.:  
+&nbsp;&nbsp;• Exponents: r<sup>2</sup> • Operations: 6 × 4, 12 ÷ 3 • Fractions: 3/4  
+Ensure each worked example shows step-by-step calculations and a clearly marked *Final answer:* line.
 
 <subject>
 {subject}
@@ -12,14 +18,14 @@ Apply the recommended pedagogical approaches found in the context (e.g. Profound
 </topic>
 
 <period_length>
-    {period_length}
+{period_length}            <!-- default 35 -->
 </period_length>
 
 <periods>
-    {periods}                   <!-- e.g. 2 -->
+{periods}                   <!-- e.g. 2 -->
 </periods>
 
-<!-- --- Zeitaufteilung: 10 % / 40 % / 40 % / 10 %, auf 5-min-Schritte runden ---
+<!-- --- Time allocation: 10 % / 40 % / 40 % / 10 %, rounded to 5-minute steps ---
      total_minutes  = period_length × periods
      hook_minutes   = max(5, round(total_minutes * 0.10 / 5) * 5)
      instr_minutes  = round(total_minutes * 0.40 / 5) * 5
@@ -33,7 +39,7 @@ As learning outcomes, please use the list provided here; feel free to adapt word
 {learningObjectives}
 </learning_outcomes>
 
-Divide the content into exactly {periods} periods and provide a procedure block (hook, instruction, activity, wrap-up & assessment) for *each* period, using the calculated minutes above.  
+Divide the content into exactly {periods} periods and provide a procedure block (hook, instruction, activity, wrap-up & assessment) for each period, using the calculated minutes above.  
 Indicate any points where gender or special-needs considerations are relevant.
 
 <format>
@@ -57,31 +63,40 @@ Lesson Plan Template
 
 <tr>
 <td>Generic skill(s)</td>
-<td>Select at least two skills that best suit the topic from the list below:<br>
-- Critical thinking and problem-solving …<br>
-- Creativity and innovation …<br>
-- Communication …<br>
-- Co-operation and Self-Directed Learning …<br>
-- Mathematical Computation and ICT Proficiency …</td>
+<td>
+<ul>
+<li>Critical thinking and problem-solving …</li>
+<li>Creativity and innovation …</li>
+<li>Communication …</li>
+<li>Co-operation and Self-Directed Learning …</li>
+<li>Mathematical Computation and ICT Proficiency …</li>
+</ul>
+</td>
 </tr>
 
 <tr>
 <td>Materials:</td>
-<td>List all materials required, favouring locally available or low-cost resources.</td>
+<td><ul><li>List all materials required, favouring locally available or low-cost resources.</li></ul></td>
 </tr>
 </table>
 
 <h4>Procedure:</h4>
 
 <table class="w3-table w3-striped w3-border procedure">
-<tr><td>Hook (hook_minutes min):</td><td>…</td></tr>
-<tr><td>Instruction (instruction_minutes min):</td><td>…</td></tr>
-<tr><td>Activity (activity_minutes min):</td><td>…</td></tr>
-<tr><td>Wrap-up &amp; Assessment (wrap_minutes min):</td><td>…</td></tr>
+<tr><td>Hook (~hook_minutes min):</td><td>…</td></tr>
+<tr><td>Instruction (~instruction_minutes min):</td><td>…</td></tr>
+<tr><td>Activity (~activity_minutes min):</td><td>…</td></tr>
+<tr><td>Wrap-up &amp; Assessment (~wrap_minutes min):</td><td>…</td></tr>
 </table>
+
+<h4>Examples Bank:</h4>
+Provide 2 – 3 detailed, copy-ready examples for *every* exercise or invented task mentioned above.  
+<ul>
+    <li>Show each example with clear steps and a <b>Final answer:</b> line.</li>
+    <li>Use only plain HTML/text as specified (no LaTeX/MathML/Markdown).</li>
+    <li>Keep notation classroom-friendly; e.g. Area of a circle = &pi; × r<sup>2</sup>.</li>
+</ul>
 </format>
 
-Please give the result in the html table above. Make really sure, that you use this provided format and that it is html.
-Make sure you have propper formatting for lists and do not display them just as floating text.
-
+Please give the result in the HTML table above. Make sure you preserve this format exactly and use valid HTML, including proper list tags.
 {context}

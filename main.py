@@ -1,6 +1,8 @@
 
-from flask import Flask, request, jsonify
-from flask import render_template
+from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
+
+
 
 # Imports for RAG
 from langchain_core.prompts import ChatPromptTemplate
@@ -9,10 +11,13 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 from langchain_cohere import ChatCohere
 from langchain_cohere import CohereEmbeddings
+
+# IO Imports
 from dotenv import load_dotenv
 import os
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def index():
@@ -39,6 +44,7 @@ def index():
 @app.route('/faq/')
 def faq():
     return render_template('faq.html')
+    
 
 @app.route('/generateLessonPlan', methods=["POST"])
 def getLessonPlan():
@@ -48,7 +54,7 @@ def getLessonPlan():
 
         # PREPARE THE PROMPT
         # Here they used the mode parameter to specify wether a lesson is regenerated or generated the first time. 
-        with open("C:\\Users\\wagne\\Desktop\\gutenberg\\ai-gutenberg\\lesson-planner-gutenberg\\prompt_templates\\test.txt", "r") as file:
+        with open("prompt_templates/test.txt", "r", encoding='utf-8') as file:
             prompt_template_string = file.read()
 
         template_vars = {
