@@ -22,6 +22,7 @@
       formData.append("periods", $("#period").val());
       formData.append("topic", $("#topic").val());
       formData.append("learning_obj", $("#learning_obj").val());
+      formData.append("model", $("#model").val());
 
       const fileInput = $("#htmlUpload")[0];
       if (fileInput.files.length > 0) {
@@ -51,9 +52,7 @@
           let html = `<div class="card mb-3">
                         <div class="card-body">
                           <h5 class="card-title">Generated Lesson Plan</h5>
-                          <p class="card-text">${answer}</p>
-                          <p class="text-muted"><strong>Suggested Pages:</strong> ${pages.join(', ')}</p>
-                          
+                          <p class="card-text">${answer}</p>                         
                         </div>
                       </div>`;
 
@@ -103,53 +102,72 @@
   </div>
 
   <form enctype="multipart/form-data">
-  <div class="row mb-4">
-    <div class="col-md-4">
-      <label for="subject" class="form-label">Materia</label>
-      <select id="subject" class="form-select">
-        {% for subject in subjects %}
-        <option value="{{subject.value}}">{{subject.label}}</option>
+
+    <div class="row mb-4">
+
+      <div class="col-md-4">
+        <label for="subject" class="form-label">Materia</label>
+        <select id="subject" class="form-select">
+          {% for subject in subjects %}
+          <option value="{{subject.value}}">{{subject.label}}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label for="level" class="form-label">Grado</label>
+        <select id="level" class="form-select">
+          {% for level in levels %}
+          <option value="{{level.value}}">{{level.label}}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label for="period" class="form-label">Horas</label>
+        <select id="period" class="form-select">
+          {% for period in periods %}
+          <option value="{{period.value}}">{{period.label}}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+    </div>
+
+    <div class="row mb-4">
+
+      <div class="col-md-4">
+        <label for="topic" class="form-label">Tema</label>
+        <textarea id="topic" class="form-control" rows="5" placeholder="Escriba el tema"></textarea>
+      </div>
+
+      <div class="col-md-4">
+        <label for="learning_obj" class="form-label">Objetivos de aprendizaje</label>
+        <textarea id="learning_obj" class="form-control" rows="5" placeholder="Learning Objectives"></textarea>
+      </div>
+
+    
+  <div class="col-md-4">
+
+    <div class="row mb-4">
+      <label for="model" class="form-label">Models</label>
+      <select id="model" class="form-select">
+        {% for model in models %}
+        <option value="{{model.value}}">{{model.label}}</option>
         {% endfor %}
       </select>
     </div>
 
-    <div class="col-md-4">
-      <label for="level" class="form-label">Grado</label>
-      <select id="level" class="form-select">
-        {% for level in levels %}
-        <option value="{{level.value}}">{{level.label}}</option>
-        {% endfor %}
-      </select>
-    </div>
-
-    <div class="col-md-4">
-      <label for="period" class="form-label">Horas</label>
-      <select id="period" class="form-select">
-        {% for period in periods %}
-        <option value="{{period.value}}">{{period.label}}</option>
-        {% endfor %}
-      </select>
-    </div>
-  </div>
-
-  <div class="row mb-4">
-    <div class="col-md-6">
-      <label for="topic" class="form-label">Tema</label>
-      <textarea id="topic" class="form-control" rows="3" placeholder="Escriba el tema"></textarea>
-    </div>
-
-    <div class="col-md-6">
-      <label for="learning_obj" class="form-label">Objetivos de aprendizaje</label>
-      <textarea id="learning_obj" class="form-control" rows="3" placeholder="Learning Objectives"></textarea>
-    </div>
-  </div>
-
-  <div class="row mb-4">
-    <div class="col-md-6">
+    <div class="row mb-3">
       <label for="htmlUpload" class="form-label"> Subir planificación de clases anteriores </label>
       <input type="file" id="htmlUpload" name="htmlUpload" class="form-control" accept="application/html">
     </div>
+
+    
   </div>
+  </div>
+
+
 
   <div class="text-center">
     <button id="submitBtn" class="btn btn-primary">Generar Plan</button>
