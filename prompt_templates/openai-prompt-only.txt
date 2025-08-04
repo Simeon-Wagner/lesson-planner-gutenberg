@@ -44,7 +44,6 @@ As learning outcomes, please use the list provided here; feel free to adapt word
 </learning_outcomes>
 
 Divide the content into exactly {periods} periods and provide a procedure block (hook, instruction, activity, wrap-up & assessment) for each period, using the calculated minutes above.  
-Indicate any points where gender or special-needs considerations are relevant.
 
 <format>
 Lesson Plan Template
