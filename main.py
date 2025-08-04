@@ -113,10 +113,7 @@ def get_openai_response(formData: dict, prompt: str) -> (dict, int):
 @app.route('/generateLessonPlan', methods=["POST"])
 def getLessonPlan():
     try:
-               # PREPARE THE PROMPT
-        # Here they used the mode parameter to specify wether a lesson is regenerated or generated the first time. 
-        
-        
+            
         template_vars = {
             "input": "", #this is important for the retriever chain. Do not rename.
             "subject" :  "",
