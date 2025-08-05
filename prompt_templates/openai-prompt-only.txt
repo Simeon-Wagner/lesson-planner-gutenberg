@@ -83,13 +83,19 @@ Lesson Plan Template
 </tr>
 </table>
 
-<h4>Procedure:</h4>
+<h4>Procedimiento:</h4>
 
 <table class="w3-table w3-striped w3-border procedure">
-<tr><td>Hook (~hook_minutes min):</td><td>…</td></tr>
-<tr><td>Instruction (~instruction_minutes min):</td><td>…</td></tr>
-<tr><td>Activity (~activity_minutes min):</td><td>…</td></tr>
-<tr><td>Wrap-up &amp; Assessment (~wrap_minutes min):</td><td>…</td></tr>
+  <tr><td><b>Enganche</b> (~hook_minutes&nbsp;min):</td><td>…</td></tr>
+  <tr><td colspan="2"><hr></td></tr>
+
+  <tr><td><b>Instrucción</b> (~instruction_minutes&nbsp;min):</td><td>…</td></tr>
+  <tr><td colspan="2"><hr></td></tr>
+
+  <tr><td><b>Actividad</b> (~activity_minutes&nbsp;min):</td><td>…</td></tr>
+  <tr><td colspan="2"><hr></td></tr>
+
+  <tr><td><b>Cierre y evaluación</b> (~wrap_minutes&nbsp;min):</td><td>…</td></tr>
 </table>
 
 <h4>Examples Bank:</h4>
@@ -102,3 +108,32 @@ Provide 2 – 3 detailed, copy-ready examples for *every* exercise or invented t
 </format>
 
 Please give the result in the HTML table above. Make sure you preserve this format exactly and use valid HTML, including proper list tags.
+
+
+<!-- LLM-ONLY: Busca en la web abierta 3–5 recursos libres apropiados
+     (láminas, relatos, infografías, mini-videos, herramientas interactivas).
+     Da preferencia a Pinterest, Unsplash, Pexels, Wikimedia Commons,
+     StoryWeaver, NASA, Smithsonian u otros repositorios abiertos.
+     Verifica licencia CC-BY / CC-0 / Dominio Público.
+     Rellena la tabla siguiente con: Título – uso en una frase – URL – licencia. -->
+
+<h4>Recursos en línea (Pinterest y más):</h4>
+
+<table class="w3-table w3-striped w3-border">
+  <tr>
+    <th>Título</th>
+    <th>Uso en clase (1 frase)</th>
+    <th>URL directa</th>
+    <th>Licencia</th>
+  </tr>
+
+  <!-- Ejemplo de fila (puede eliminarse) -->
+  <tr>
+    <td>Lámina «Sistema Solar»</td>
+    <td>Colorear y etiquetar planetas durante la actividad práctica</td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:Solar_system_coloring_page.svg"
+           target="_blank">Abrir recurso</a></td>
+    <td>CC-BY-SA&nbsp;3.0</td>
+  </tr>
+  <!-- Repetir la fila para cada recurso adicional -->
+</table>

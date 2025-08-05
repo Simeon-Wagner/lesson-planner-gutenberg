@@ -1,4 +1,5 @@
 
+print("Start")
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 
@@ -92,7 +93,8 @@ def get_openai_response(formData: dict, prompt: str) -> (dict, int):
     try:
         client = OpenAI()
         completion = client.chat.completions.create(
-            model="gpt-4.1-mini",
+            model="gpt-4.1-mini", 
+            #tools=[{"type": "web_search_preview"}],
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": filled_prompt}
@@ -170,6 +172,9 @@ def getLessonPlan():
 if __name__ == "__main__":
     # Setting debug to True enables debug output. This line should be
     # removed before deploying a production app.
+    print("Start 1")
     load_dotenv('./.env')
+    print("Start 2")
     app.debug = True
+    print("Start 3")
     app.run(host='0.0.0.0', port=8080)
