@@ -93,8 +93,7 @@ def get_openai_response(formData: dict, prompt: str) -> (dict, int):
     try:
         client = OpenAI()
         completion = client.chat.completions.create(
-            model="gpt-4.1-mini", 
-            #tools=[{"type": "web_search_preview"}],
+            model="gpt-5", 
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": filled_prompt}
