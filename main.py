@@ -22,15 +22,60 @@ app = Flask(__name__)
 CORS(app)
 
 levels = [
+        {"value": "1. Grado", "label": "1. Grado", "disabled": False},
+        {"value": "2. Grado", "label": "2. Grado", "disabled": False},
+        {"value": "3. Grado", "label": "3. Grado", "disabled": False},
+        {"value": "4. Grado", "label": "4. Grado", "disabled": False},
+        {"value": "5. Grado", "label": "5. Grado", "disabled": False},
+        {"value": "6. Grado", "label": "6. Grado", "disabled": False},
+        {"value": "7. Grado", "label": "7. Grado", "disabled": False},
+        {"value": "8. Grado", "label": "8. Grado", "disabled": False},
+        {"value": "9. Grado", "label": "9. Grado", "disabled": False},
         {"value": "1. Curso", "label": "1. Curso", "disabled": False},
         {"value": "2. Curso", "label": "2. Curso", "disabled": False},
         {"value": "3. Curso", "label": "3. Curso", "disabled": False}
     ]
 
 subjects = [
-    {"value": "Matematica", "label": "Matematica", "disabled": False},
+    {"value": "Antropología Cultural", "label": "Antropología Cultural", "disabled": False},
+    {"value": "Antropología Social", "label": "Antropología Social", "disabled": False},
+    {"value": "Artes Plásticas", "label": "Artes Plásticas", "disabled": False},
+    {"value": "Biología", "label": "Biología", "disabled": False},
     {"value": "Castellano", "label": "Castellano", "disabled": False},
-    {"value": "Guarani", "label": "Guarani", "disabled": False}
+    {"value": "Ciencias", "label": "Ciencias", "disabled": False},
+    {"value": "Economia Financiera", "label": "Economia Financiera", "disabled": False},
+    {"value": "Economia y Gestión", "label": "Economia y Gestión", "disabled": False},
+    {"value": "Educacicon Vial", "label": "Educacicon Vial", "disabled": False},
+    {"value": "Educación Física", "label": "Educación Física", "disabled": False},
+    {"value": "Estadística", "label": "Estadística", "disabled": False},
+    {"value": "Ética", "label": "Ética", "disabled": False},
+    {"value": "Filosofía", "label": "Filosofía", "disabled": False},
+    {"value": "Física", "label": "Física", "disabled": False},
+    {"value": "Guaraní", "label": "Guaraní", "disabled": False},
+    {"value": "Historia", "label": "Historia", "disabled": False},
+    {"value": "Informática", "label": "Informática", "disabled": False},
+    {"value": "Inglés", "label": "Inglés", "disabled": False},
+    {"value": "Laboratorio Matemática", "label": "Laboratorio Matemática", "disabled": False},
+    {"value": "Laboratorio de Ciencias", "label": "Laboratorio de Ciencias", "disabled": False},
+    {"value": "Liderazgo", "label": "Liderazgo", "disabled": False},
+    {"value": "Matemática", "label": "Matemática", "disabled": False},
+    {"value": "Metodología", "label": "Metodología", "disabled": False},
+    {"value": "Música", "label": "Música", "disabled": False},
+    {"value": "Orientación Cristiana", "label": "Orientación Cristiana", "disabled": False},
+    {"value": "Orientación Educacional", "label": "Orientación Educacional", "disabled": False},
+    {"value": "Politica", "label": "Politica", "disabled": False},
+    {"value": "Primeros Auxilios", "label": "Primeros Auxilios", "disabled": False},
+    {"value": "Química", "label": "Química", "disabled": False},
+    {"value": "Sicología", "label": "Sicología", "disabled": False},
+    {"value": "Sociología", "label": "Sociología", "disabled": False},
+    {"value": "Trab. Y Tecnología", "label": "Trab. Y Tecnología", "disabled": False},
+    {"value": "Comunicación", "label": "Comunicación", "disabled": False},
+    {"value": "Educación para la Salud", "label": "Educación para la Salud", "disabled": False},
+    {"value": "Ciencias Sociales", "label": "Ciencias Sociales", "disabled": False},
+    {"value": "Medio Natural", "label": "Medio Natural", "disabled": False},
+    {"value": "Vida Social", "label": "Vida Social", "disabled": False},
+    {"value": "Ciencias Naturales", "label": "Ciencias Naturales", "disabled": False},
+
 ]
 
 periods = [
